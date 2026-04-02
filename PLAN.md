@@ -47,8 +47,8 @@
 
 ### 1.4 Git 提交规范（Husky + lint-staged + Commitlint）
 
-- [ ] 安装并初始化 Husky（`husky init`）
-- [ ] 配置 `pre-commit` hook：执行 `lint-staged`（只检查暂存文件）
+- [x] 安装并初始化 Husky（`husky init`）
+- [x] 配置 `pre-commit` hook：执行 `lint-staged`（只检查暂存文件）
   ```json
   // lint-staged.config.mjs
   {
@@ -56,7 +56,7 @@
     "*.{json,md,yml}": ["prettier --write"]
   }
   ```
-- [ ] 配置 `commit-msg` hook：执行 `commitlint`（约束 Conventional Commits 格式）
+- [x] 配置 `commit-msg` hook：执行 `commitlint`（约束 Conventional Commits 格式）
   ```
   feat / fix / docs / style / refactor / test / chore / perf
   ```
