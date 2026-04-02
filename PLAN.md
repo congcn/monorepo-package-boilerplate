@@ -33,8 +33,8 @@
 - [x] 配置 `.npmrc`、`.nvmrc` / `.node-version`
 
 ### 1.2 TypeScript 配置
-- [ ] 根目录 `tsconfig.base.json`（严格模式、路径别名）
-- [ ] 各子包继承基础配置，按需覆盖
+- [x] 根目录 `tsconfig.base.json`（严格模式、路径别名）
+- [x] 各子包继承基础配置，按需覆盖
 
 ### 1.3 代码规范
 - [ ] ESLint（`@typescript-eslint`，flat config，推荐规则集）

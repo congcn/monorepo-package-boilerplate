@@ -23,6 +23,8 @@
     "release": "pnpm build && changeset publish",
     "clean": "rimraf packages/*/dist docs/.vitepress/dist"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "typescript": "^6.0.2"
+  },
   "packageManager": "pnpm@9.0.0"
 }
