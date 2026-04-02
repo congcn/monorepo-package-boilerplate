@@ -6,22 +6,23 @@
 
 ## 技术选型
 
-| 方向 | 选择 | 理由 |
-|------|------|------|
-| 开发语言 | TypeScript | 类型安全，IDE 友好 |
-| 包管理 | pnpm workspaces（monorepo） | 多包管理，严格隔离依赖 |
-| 构建工具 | Vite + Rollup | 开发体验好，产物灵活 |
-| 代码规范 | ESLint + Prettier | 统一代码风格 |
-| 提交规范 | Husky + lint-staged + Commitlint | 提交前自动检查 |
-| 测试 | Vitest | 单元测试 |
-| 文档 | VitePress | 轻量文档站 |
-| 版本管理 | Changesets | 语义化版本 + CHANGELOG |
+| 方向     | 选择                             | 理由                   |
+| -------- | -------------------------------- | ---------------------- |
+| 开发语言 | TypeScript                       | 类型安全，IDE 友好     |
+| 包管理   | pnpm workspaces（monorepo）      | 多包管理，严格隔离依赖 |
+| 构建工具 | Vite + Rollup                    | 开发体验好，产物灵活   |
+| 代码规范 | ESLint + Prettier                | 统一代码风格           |
+| 提交规范 | Husky + lint-staged + Commitlint | 提交前自动检查         |
+| 测试     | Vitest                           | 单元测试               |
+| 文档     | VitePress                        | 轻量文档站             |
+| 版本管理 | Changesets                       | 语义化版本 + CHANGELOG |
 
 ---
 
 ## 阶段 1 — monorepo 基础设施
 
 ### 1.1 monorepo 基础
+
 - [x] 初始化 pnpm workspaces，规划目录结构：
   ```
   packages/           # 子包目录
@@ -33,15 +34,19 @@
 - [x] 配置 `.npmrc`、`.nvmrc` / `.node-version`
 
 ### 1.2 TypeScript 配置
+
 - [x] 根目录 `tsconfig.base.json`（严格模式、路径别名）
 - [x] 各子包继承基础配置，按需覆盖
 
 ### 1.3 代码规范
-- [ ] ESLint（`@typescript-eslint`，flat config，推荐规则集）
-- [ ] Prettier（与 ESLint 协同，`eslint-config-prettier`）
-- [ ] 统一 `.editorconfig`
+
+- [x] ESLint（`@typescript-eslint`，flat config，推荐规则集）
+- [x] Prettier（与 ESLint 协同，`eslint-config-prettier`）
+- [x] 统一 `.editorconfig`
+- [x] VS Code 工作区配置（`.vscode/settings.json` 保存时自动格式化，`.vscode/extensions.json` 推荐插件）
 
 ### 1.4 Git 提交规范（Husky + lint-staged + Commitlint）
+
 - [ ] 安装并初始化 Husky（`husky init`）
 - [ ] 配置 `pre-commit` hook：执行 `lint-staged`（只检查暂存文件）
   ```json
@@ -57,15 +62,18 @@
   ```
 
 ### 1.5 构建基础设施
+
 - [ ] Rollup 基础配置模板（输出 ESM / CJS / IIFE 三种格式 + `.d.ts`）
 - [ ] Vite 配置（playground 热更新开发）
 - [ ] 构建脚本（`scripts/build.ts`，遍历 packages 依次构建）
 
 ### 1.6 版本与发布
+
 - [ ] 配置 **Changesets**（`@changesets/cli`）管理语义化版本与 CHANGELOG
 - [ ] 配置发布脚本（`pnpm release`）
 
 ### 1.7 CI/CD（可选）
+
 - [ ] GitHub Actions：PR 触发 lint + test，merge 触发构建 + 发布
 
 ---
@@ -75,18 +83,22 @@
 > 在脚手架框架内创建一个最简示例包，验证整套基础设施可用。
 
 ### 2.1 包初始化
+
 - [ ] 创建 `packages/my-lib`，配置独立 `package.json`（name、version、exports 字段）
 - [ ] 继承根 TypeScript 配置，配置子包 `tsconfig.json`
 
 ### 2.2 基础源码结构
+
 - [ ] 创建 `src/index.ts` 作为入口，导出示例函数/组件
 - [ ] 确保构建产物包含 ESM / CJS / IIFE + `.d.ts`
 
 ### 2.3 单元测试
+
 - [ ] 配置 Vitest（继承根配置）
 - [ ] 编写示例测试用例，验证测试链路
 
 ### 2.4 playground 联调
+
 - [ ] `playground` 通过 `workspace:*` 引用 `my-lib`，验证本地包链接
 - [ ] 验证热更新（修改源码 → playground 自动刷新）
 
