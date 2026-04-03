@@ -63,9 +63,9 @@
 
 ### 1.5 构建基础设施
 
-- [ ] Rollup 基础配置模板（输出 ESM / CJS / IIFE 三种格式 + `.d.ts`）
-- [ ] Vite 配置（playground 热更新开发）
-- [ ] 构建脚本（`scripts/build.ts`，遍历 packages 依次构建）
+- [x] Rollup 基础配置模板（输出 ESM / CJS / IIFE 三种格式 + `.d.ts`）
+- [x] Vite 配置（playground 热更新开发）
+- [x] 构建脚本（`scripts/build.ts`，遍历 packages 依次构建）
 
 ### 1.6 版本与发布
 
