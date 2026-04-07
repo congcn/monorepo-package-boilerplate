@@ -19,12 +19,13 @@
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",
     "changeset": "changeset",
-    "version": "changeset version",
+    "version-packages": "changeset version",
     "release": "pnpm build && changeset publish",
     "clean": "rimraf packages/*/dist docs/.vitepress/dist",
     "prepare": "husky"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.29.7",
     "@commitlint/cli": "^20.5.0",
     "@commitlint/config-conventional": "^20.5.0",
     "@rollup/plugin-commonjs": "^29.0.2",

@@ -69,8 +69,8 @@
 
 ### 1.6 版本与发布
 
-- [ ] 配置 **Changesets**（`@changesets/cli`）管理语义化版本与 CHANGELOG
-- [ ] 配置发布脚本（`pnpm release`）
+- [x] 配置 **Changesets**（`@changesets/cli`）管理语义化版本与 CHANGELOG
+- [x] 配置发布脚本（`pnpm release`）
 
 ### 1.7 CI/CD（可选）
 

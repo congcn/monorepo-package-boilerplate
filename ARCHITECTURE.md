@@ -174,12 +174,43 @@ export default createConfig({ name: 'MyLib' })
 | `lerna version`（未选用）    | 历史包袱较重，配置繁琐                                                                                                          |
 | 手动维护 CHANGELOG（未选用） | 易出错，无法与 git 历史关联                                                                                                     |
 
+**Changesets 配置说明（`.changeset/config.json`）**
+
+```json
+{
+  "$schema": "https://unpkg.com/@changesets/config@3.0.0/schema.json",
+  "changelog": "@changesets/cli/changelog",
+  "commit": false,
+  "fixed": [],
+  "linked": [],
+  "access": "public",
+  "baseBranch": "main",
+  "updateInternalDependencies": "patch",
+  "ignore": []
+}
+```
+
+- `$schema`：JSON Schema 提示与校验，提升编辑体验。
+- `changelog`：使用官方 changelog 生成器，在 `changeset version` 时自动更新 `CHANGELOG.md`。
+- `commit: false`：版本变更后不自动提交，保留手动审查与提交流程。
+- `fixed` / `linked`：包版本联动策略，当前为空表示各包独立版本管理。
+- `access: public`：默认按公开包发布到 npm。
+- `baseBranch: main`：以 `main` 作为变更比较与发布基线分支。
+- `updateInternalDependencies: patch`：内部依赖变更时，依赖方至少进行 patch 级别更新。
+- `ignore`：排除不参与版本/发布的包，当前为空表示全部纳入。
+
+**脚本约定（根 `package.json`）**
+
+- `pnpm changeset`：创建 `.changeset/*.md`，记录变更影响包与版本级别。
+- `pnpm version-packages`：执行 `changeset version`，统一更新版本号与 `CHANGELOG.md`。
+- `pnpm release`：先 `pnpm build`，再 `changeset publish` 发布到 npm。
+
 **发布流程**
 
 ```
-开发 → PR（附带 changeset 文件）→ merge main
-→ changeset version（更新版本号 + CHANGELOG）
-→ pnpm build → changeset publish（推送 npm）
+开发 → pnpm changeset（生成 changeset 文件）→ PR 合并到 main
+→ pnpm version-packages（更新版本号 + CHANGELOG）
+→ pnpm release（构建并发布）
 ```
 
 ---
