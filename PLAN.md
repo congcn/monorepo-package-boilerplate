@@ -106,10 +106,10 @@
 
 ## 阶段 3 — 文档站
 
-- [ ] 初始化 VitePress（`docs/`）
-- [ ] 首页 + 快速开始文档
-- [ ] API 文档结构规划
-- [ ] 部署配置（GitHub Pages 或 Vercel）
+- [x] 初始化 VitePress（`docs/`）
+- [x] 首页 + 快速开始文档
+- [x] API 文档结构规划
+- [x] 部署配置（GitHub Pages 或 Vercel）
 
 ---
 
