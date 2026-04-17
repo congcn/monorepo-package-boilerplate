@@ -46,7 +46,10 @@ package-template/
 ├── tsconfig.base.json     # 根级 TypeScript 基础配置
 ├── eslint.config.mjs      # ESLint flat config
 ├── prettier.config.mjs    # Prettier 配置
-└── ARCHITECTURE.md        # 架构设计说明
+├── ARCHITECTURE.md        # 架构设计总览
+├── ARCHITECTURE_monorepo.md
+├── ARCHITECTURE_lib.md
+└── ARCHITECTURE_docs.md
 ```
 
 ## 技术选型

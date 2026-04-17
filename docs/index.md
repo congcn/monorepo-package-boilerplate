@@ -1,4 +1,4 @@
-# Package Template
+# Monorepo Package Boilerplate
 
 一套标准化、可复用的 monorepo 组件库脚手架，目标是让新的组件库项目可以直接基于该模板启动，而不是从零重复搭建工程基础设施。
 

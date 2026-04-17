@@ -4,7 +4,7 @@ const base = process.env.NODE_ENV === 'production' ? '/monorepo-package-boilerpl
 
 export default defineConfig({
   base,
-  title: 'Package Template',
+  title: 'Monorepo Package Boilerplate',
   description: '一个可复用的 monorepo 组件库脚手架模板',
   cleanUrls: true,
   lastUpdated: true,
@@ -33,7 +33,7 @@ export default defineConfig({
     ],
     footer: {
       message: 'Built with pnpm workspaces, TypeScript, Rollup and VitePress.',
-      copyright: 'Copyright © 2026 Package Template',
+      copyright: 'Copyright © 2026 Monorepo Package Boilerplate',
     },
     search: {
       provider: 'local',
