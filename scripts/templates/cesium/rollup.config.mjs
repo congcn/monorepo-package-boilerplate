@@ -5,6 +5,6 @@ export default createConfig({
   iife: true,
   external: ['cesium'],
   globals: {
-    cesium: 'Cesium'
+    cesium: 'Cesium',
   },
 })

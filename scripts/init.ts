@@ -55,7 +55,7 @@ async function init() {
   // 替换基本信息
   configContent = configContent
     .replace(/title: '.*'/, `title: '${projectName}'`)
-    .replace(/description: '.*'/, `description: '${description}'`)
+    .replace(/description:\s*'[^']*'/, `description:\n    '${description}'`)
     .replace(
       /socialLinks: \[\s*\{\s*icon: 'github',\s*link: '[^']+'\s*\},?\s*\]/,
       `socialLinks: [\n      { icon: 'github', link: '${cleanGithubUrl}' }\n    ]`,
@@ -64,6 +64,7 @@ async function init() {
       /copyright: 'Copyright © \d{4} .*'/,
       `copyright: 'Copyright © ${new Date().getFullYear()} ${projectName}'`,
     )
+    .replace(/https:\/\/github\.com\/CongYao1993\/monorepo-package-boilerplate/g, cleanGithubUrl)
 
   // 移除 internals 导航 (匹配整个 nav 项 and sidebar 项)
   configContent = configContent
@@ -127,7 +128,62 @@ ${description}
   await fs.writeFile(apiIndexPath, apiIndexContent, 'utf-8')
   console.log('✅ 已重置 docs/api/index.md')
 
-  // 5. 自毁
+  // 5. 替换其他文件中的模板名称
+  console.log('⏳ 正在替换其余模板信息...')
+  try {
+    const readmePath = path.resolve(ROOT_DIR, 'README.md')
+    const readmeContent = `# ${projectName}
+
+${description}
+
+## 开发与构建
+
+1. 安装依赖: \`pnpm install\`
+2. 构建项目: \`pnpm build\`
+3. 启动开发: \`pnpm dev:playground\`
+4. 启动文档: \`pnpm docs:dev\`
+
+有关此工作区的详细说明，请参阅本地 \`docs/\` 目录下的文档。
+`
+    await fs.writeFile(readmePath, readmeContent, 'utf-8')
+
+    const basePkgPath = path.resolve(ROOT_DIR, 'scripts/templates/base/package.json')
+    let basePkgContent = await fs.readFile(basePkgPath, 'utf-8')
+    basePkgContent = basePkgContent.replace(
+      /CongYao1993\/monorepo-package-boilerplate/g,
+      cleanGithubUrl.replace('https://github.com/', ''),
+    )
+    await fs.writeFile(basePkgPath, basePkgContent, 'utf-8')
+
+    const docsYmlPath = path.resolve(ROOT_DIR, '.github/workflows/docs.yml')
+    let docsYmlContent = await fs.readFile(docsYmlPath, 'utf-8')
+    const repoName = cleanGithubUrl.split('/').pop() || projectName
+    docsYmlContent = docsYmlContent.replace(
+      /DOCS_BASE: \/monorepo-package-boilerplate\//g,
+      `DOCS_BASE: /${repoName}/`,
+    )
+    await fs.writeFile(docsYmlPath, docsYmlContent, 'utf-8')
+
+    const gettingStartedPath = path.resolve(ROOT_DIR, '.boilerplate-docs/guide/getting-started.md')
+    if (await fs.stat(gettingStartedPath).catch(() => null)) {
+      let gettingStartedContent = await fs.readFile(gettingStartedPath, 'utf-8')
+      gettingStartedContent = gettingStartedContent.replace(
+        /monorepo-package-boilerplate/g,
+        projectName,
+      )
+      gettingStartedContent = gettingStartedContent.replace(
+        /CongYao1993\/monorepo-package-boilerplate/g,
+        cleanGithubUrl.replace('https://github.com/', ''),
+      )
+      await fs.writeFile(gettingStartedPath, gettingStartedContent, 'utf-8')
+    }
+
+    console.log('✅ 已更新 README.md 与模板文件')
+  } catch (err) {
+    console.error('⚠️ 替换其他模板信息时出错:', err)
+  }
+
+  // 6. 自毁
   const scriptPath = fileURLToPath(import.meta.url)
   await fs.rm(scriptPath)
   console.log('✅ 初始化脚本已自毁')

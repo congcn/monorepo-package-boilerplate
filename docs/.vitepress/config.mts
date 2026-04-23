@@ -6,7 +6,8 @@ const base = docsBase.endsWith('/') ? docsBase : `${docsBase}/`
 export default defineConfig({
   base,
   title: 'Monorepo Package Boilerplate',
-  description: '🚀 A modern multi-scenario monorepo boilerplate for building component libraries & npm packages. 一套面向多场景的现代化组件库 monorepo 模板。',
+  description:
+    '🚀 A modern multi-scenario monorepo boilerplate for building component libraries & npm packages. 一套面向多场景的现代化组件库 monorepo 模板。',
   cleanUrls: true,
   lastUpdated: true,
   themeConfig: {
@@ -22,7 +23,7 @@ export default defineConfig({
           text: '指南',
           items: [
             { text: '快速开始', link: '/guide/getting-started' },
-            { text: '多场景包开发', link: '/guide/scenarios' }
+            { text: '多场景包开发', link: '/guide/scenarios' },
           ],
         },
       ],
@@ -57,4 +58,3 @@ export default defineConfig({
     },
   },
 })
-

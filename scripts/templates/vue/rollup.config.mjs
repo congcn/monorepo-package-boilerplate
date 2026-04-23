@@ -7,7 +7,7 @@ export default createConfig({
   dtsEnabled: false,
   external: ['vue'],
   globals: {
-    vue: 'Vue'
+    vue: 'Vue',
   },
-  plugins: [vue()]
+  plugins: [vue()],
 })

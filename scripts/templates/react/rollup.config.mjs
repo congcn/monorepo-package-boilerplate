@@ -8,6 +8,6 @@ export default createConfig({
   globals: {
     react: 'React',
     'react-dom': 'ReactDOM',
-    'react/jsx-runtime': 'jsxRuntime'
+    'react/jsx-runtime': 'jsxRuntime',
   },
 })
