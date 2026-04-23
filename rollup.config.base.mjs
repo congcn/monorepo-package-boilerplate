@@ -60,6 +60,7 @@ export function createConfig({
   if (iife) {
     configs.push({
       input,
+      external,
       output: {
         file: 'dist/index.iife.js',
         format: 'iife',
