@@ -3,11 +3,20 @@
   "version": "0.0.0",
   "private": true,
   "description": "🚀 A modern multi-scenario monorepo boilerplate for building component libraries & npm packages. 一套面向多场景的现代化组件库 monorepo 模板。",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CongYao1993/monorepo-package-boilerplate.git"
+  },
+  "homepage": "https://github.com/CongYao1993/monorepo-package-boilerplate#readme",
+  "bugs": {
+    "url": "https://github.com/CongYao1993/monorepo-package-boilerplate/issues"
+  },
   "engines": {
     "node": ">=20.0.0",
     "pnpm": ">=9.0.0"
   },
   "scripts": {
+    "init": "tsx scripts/init.ts",
     "create:package": "tsx scripts/create-package.ts",
     "build": "tsx scripts/build.ts",
     "dev": "pnpm --filter playground dev",

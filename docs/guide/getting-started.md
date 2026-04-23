@@ -9,34 +9,47 @@
 
 ---
 
-## Step 1: 重新初始化 Git (强烈建议)
+## Step 1: 获取代码与一键品牌定制
 
-如果你是基于此模板开始自己全新的组件库，原模板的开发历史对你来说并无意义。建议彻底清理历史，让新项目有一个干净的起点。
+基于本模板开启新项目时，首先我们需要获取代码并完成品牌信息的替换和冗余文件的清理。
 
-1. **保存已有改动** (如果有的话)：`git add -A && git commit -m "chore: save before re-init"`
-2. **删除旧 Git 记录**：`rm -rf .git` (Windows 下可使用 `Remove-Item -Recurse -Force .git`)
-3. **重新初始化**：
+1. **克隆代码**：
+   ```bash
+   git clone https://github.com/CongYao1993/monorepo-package-boilerplate.git
+   cd monorepo-package-boilerplate
+   ```
+2. **安装依赖**：运行初始化脚本前需要先安装依赖以加载运行环境（如 `tsx`）。
+   ```bash
+   pnpm install
+   ```
+3. **运行初始化脚本**：
+
+   ```bash
+   pnpm run init
+   ```
+
+   根据终端提示输入你的项目名称、NPM Scope、描述等信息。脚本会自动帮你修改 `package.json`、定制文档站配置，并自动归档/删除冗余文档。脚本执行完成后会自动从系统中“自毁”。
+
+   > [!TIP]
+   > 强烈建议在初始化时填入你的 NPM 组织作用域（Scope，例如 `@your-org`）。这样后续在此 Monorepo 中生成的所有子包（如 `@your-org/button`、`@your-org/utils`）都能统一在此命名空间下，既整齐又能避免发布时与 NPM 上的其他包重名。
+
+## Step 2: 重新初始化 Git (强烈建议)
+
+执行完一键初始化脚本后，你的项目代码已经焕然一新（去除了原模板信息）。此时我们再彻底清理历史，让新项目有一个干净的起点。
+
+1. **删除旧 Git 记录**：`rm -rf .git` (Windows 下可使用 `Remove-Item -Recurse -Force .git`)
+2. **重新初始化**：
    ```bash
    git init
    git add -A
    git commit -m "feat: init from monorepo-package-boilerplate"
    ```
-4. **关联你的新远程仓库**：
+3. **关联你的新远程仓库**：
    ```bash
    git remote add origin https://github.com/<你的用户名>/<你的新仓库>.git
    git branch -M main
    git push -u origin main
    ```
-
-## Step 2: 基础信息与品牌定制
-
-当你通过 Fork 或 Clone 该模板开始开发时，首先需要剥离原模板的信息，换成你自己的品牌。
-
-1. **修改根包信息**：打开根目录 `package.json`，将 `name`、`description` 和 `repository` 替换为你自己的项目信息。
-   > [!TIP]
-   > 强烈建议提前规划好你的 NPM Scope（例如 `@your-org/components`），后续生成的所有子包都可以统一挂载到这个 Scope 下。
-2. **清理示例文档**：清空 `docs/api/index.md` 中的旧示例（如 `my-lib`），为你的新包腾出位置。
-3. **定制文档站配置**：打开 `docs/.vitepress/config.mts`，修改 `title`、`description`，并将 `socialLinks` 替换为你自己的 GitHub 仓库地址。
 
 ## Step 3: 准备联调底座 (Playground 适配)
 
