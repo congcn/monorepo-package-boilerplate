@@ -1,77 +1,123 @@
-# 快速开始
+# 快速开始：从零搭建你的组件库
+
+本文档将手把手带你完成从 Fork 本模板，到走通本地联调，再到完成自动化发布的完整闭环。
 
 ## 环境要求
 
 - Node.js `>=20`
 - pnpm `>=9`
 
-## 安装依赖
+---
+
+## Step 1: 重新初始化 Git (强烈建议)
+
+如果你是基于此模板开始自己全新的组件库，原模板的开发历史对你来说并无意义。建议彻底清理历史，让新项目有一个干净的起点。
+
+1. **保存已有改动** (如果有的话)：`git add -A && git commit -m "chore: save before re-init"`
+2. **删除旧 Git 记录**：`rm -rf .git` (Windows 下可使用 `Remove-Item -Recurse -Force .git`)
+3. **重新初始化**：
+   ```bash
+   git init
+   git add -A
+   git commit -m "feat: init from monorepo-package-boilerplate"
+   ```
+4. **关联你的新远程仓库**：
+   ```bash
+   git remote add origin https://github.com/<你的用户名>/<你的新仓库>.git
+   git branch -M main
+   git push -u origin main
+   ```
+
+## Step 2: 基础信息与品牌定制
+
+当你通过 Fork 或 Clone 该模板开始开发时，首先需要剥离原模板的信息，换成你自己的品牌。
+
+1. **修改根包信息**：打开根目录 `package.json`，将 `name`、`description` 和 `repository` 替换为你自己的项目信息。
+   > [!TIP]
+   > 强烈建议提前规划好你的 NPM Scope（例如 `@your-org/components`），后续生成的所有子包都可以统一挂载到这个 Scope 下。
+2. **清理示例文档**：清空 `docs/api/index.md` 中的旧示例（如 `my-lib`），为你的新包腾出位置。
+3. **定制文档站配置**：打开 `docs/.vitepress/config.mts`，修改 `title`、`description`，并将 `socialLinks` 替换为你自己的 GitHub 仓库地址。
+
+## Step 3: 准备联调底座 (Playground 适配)
+
+开发组件时，我们需要一个实时的网页预览环境，这就是 `playground` 目录的作用。
+
+> [!IMPORTANT]
+> 本模板默认提供的 `playground` 是一个最纯粹的 **原生 TypeScript** 环境。
+> 如果你打算开发的是 **Vue** 或 **React** 组件库，你需要先为 Playground 配置对应的运行环境！
+
+**如果你开发 Vue 组件库：**
 
 ```bash
-pnpm install
+# 1. 给 playground 安装 vue 和 vite 插件
+pnpm -F playground add vue
+pnpm -F playground add -D @vitejs/plugin-vue
+
+# 2. 修改 playground/vite.config.ts，引入并使用 vue 插件
 ```
 
-## 常用命令
+**如果你开发 React 组件库：**
 
 ```bash
-pnpm dev
-pnpm build
-pnpm test
-pnpm docs:dev
-pnpm docs:build
+# 1. 给 playground 安装 react 体系
+pnpm -F playground add react react-dom
+pnpm -F playground add -D @vitejs/plugin-react @types/react @types/react-dom
+
+# 2. 修改 playground/vite.config.ts，引入并使用 react 插件
 ```
 
-## 新建一个库包
+配置完成后，将 `playground/src/main.ts` 改造成对应框架的挂载入口即可。
 
-您可以使用内置的自动化脚手架来一键生成包，而不需要手动配置：
+## Step 4: 产出第一个业务包
+
+一切就绪，开始写代码。本模板内置了自动化脚手架，避免手动复制粘贴配置：
 
 ```bash
 # 交互式提示创建（或者直接带参数执行）
 pnpm create:package
 ```
 
-支持快速生成 `utils`、`component`、`react`、`vue`、`cesium` 等多种模板，更多细节请参阅侧边栏的 **多场景包开发** 指南。
+根据提示输入包名（如 `button`），选择你需要的模板类型（支持 `utils`、`component`、`react`、`vue`、`cesium` 等）。
+脚手架会自动在 `packages/` 目录下生成完整的工程结构、独立构建配置和测试基座。
 
-## 文档维护建议
+## Step 5: 本地联调与测试闭环
 
-- 首页用于说明模板目标与能力边界
-- `guide/` 放接入与开发指南
-- `api/` 放对外导出的 API 总览和子模块说明
-- 每新增一个公开包，都应补充对应文档
-
-## 后续开发工作流
-
-生成一个新包之后，标准的开发和测试流程如下：
+生成新包后，将其接入联调环境并开启开发模式：
 
 ### 1. 挂载依赖
 
-因为这是一个 Monorepo 项目，虽然生成了新包，但需要让 `pnpm` 识别它：
+因为是在 Monorepo 中，你需要告诉 Playground 依赖这个本地包：
+打开 `playground/package.json`，在 `dependencies` 中添加：`"你的新包名": "workspace:*"`，然后执行一次 `pnpm install`。
 
-```bash
-# 在项目根目录执行
-pnpm install
-```
+### 2. 双终端热更新开发
 
-### 2. 本地联调 (Playground)
+在 Playground 的业务代码中 `import` 你的新组件。为了实现改动组件源码网页立刻刷新，建议双开终端：
 
-开发组件时，我们需要一个实时预览环境。
-
-- 打开 `playground/package.json`，在 `dependencies` 中添加你的新包：`"你的新包名": "workspace:*"`，并执行 `pnpm install`。
-- 在 `playground/src/App.vue` 或业务代码中导入它。
-- **开启监听**：建议双开终端，一个终端执行 `pnpm dev:playground` 运行网页，另一个终端使用 `pnpm -F <包名> build --watch` 监听源码构建。每次保存代码，网页都会热更新。
+- **终端 A**：执行 `pnpm dev` 启动调试网页。
+- **终端 B**：执行 `pnpm -F <包名> build --watch` 监听组件源码构建。每次保存代码，构建产物更新，网页自动热重载。
 
 ### 3. 单元测试
 
-新包内置了测试环境。只需在根目录执行以下命令，Vitest 就会穿透到你的包里并运行它独立的测试配置：
+直接在根目录执行以下命令，Vitest 会自动穿透到各子包执行它们独立的测试配置：
 
 ```bash
 pnpm test
+# 或带覆盖率执行
+pnpm test:coverage
 ```
 
-### 4. 发布代码 (Changesets)
+## Step 6: 打通自动化发布链路
 
-当功能开发完毕准备发版：
+代码开发并测试完毕后，我们将利用 Changesets 和 GitHub Actions 实现完全自动化的发版流程。
 
-- 运行 `pnpm changeset` 并根据提示选择刚才修改的包，填写本次的更新日志。
-- 这会生成一个变更文件，将其随你的代码一起提交。
-- PR 合并到主分支后，CI 工作流（以及 `pnpm version-packages` 和 `pnpm release`）会自动接管，完成打 tag、修改 `CHANGELOG.md` 及发布 npm 的全部流程。
+> [!WARNING]
+> 发版前的必备动作：你必须前往你的 GitHub 仓库 Settings -> Secrets and variables -> Actions，添加名为 `NPM_TOKEN` 的 Secret（在 npmjs.com 生成的发布令牌）。如果没有此令牌，自动化发布将会失败！
+
+**日常发布工作流：**
+
+1. **记录变更**：在本地完成开发后，运行 `pnpm changeset`，选择修改过的包并填写更新日志。这会生成一个变更文件，将其一并提交到 Git。
+2. **触发合并**：将代码提交并创建 PR 合并到 `main` 分支。
+3. **版本管理 PR**：此时，GitHub Actions（`Release` 流水线）会自动拦截，并为你创建一个特殊的“Version Packages PR”。这个 PR 汇总了所有的变更日志，并修改了包的版本号。
+4. **一键发布**：当团队 Review 并 Merge 这个特殊的 Version PR 后，Action 会再次触发，自动执行构建、打 Git Tag、并把所有更新的包**发布到 NPM**。
+
+至此，你已经完整跑通了一个现代组件库的全部工程链路！

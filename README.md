@@ -226,10 +226,10 @@ pnpm create:package --name <包名> --template <模板类型>
 
 如果你想了解这套模板为什么这样设计、每个阶段解决了什么问题，可以继续阅读文档站中的 **工程溯源** 章节：
 
-- [阶段一：Monorepo 基础设施](https://github.com/CongYao1993/monorepo-package-boilerplate/blob/main/docs/internals/phase-1-monorepo.md)
-- [阶段二：示例包结构](https://github.com/CongYao1993/monorepo-package-boilerplate/blob/main/docs/internals/phase-2-package.md)
-- [阶段三：文档站](https://github.com/CongYao1993/monorepo-package-boilerplate/blob/main/docs/internals/phase-3-docs.md)
-- [阶段四：多场景脚手架](https://github.com/CongYao1993/monorepo-package-boilerplate/blob/main/docs/internals/phase-4-scenarios.md)
+- [阶段一：Monorepo 基础设施](./docs/internals/phase-1-monorepo.md)
+- [阶段二：示例包结构](./docs/internals/phase-2-package.md)
+- [阶段三：文档站](./docs/internals/phase-3-docs.md)
+- [阶段四：多场景脚手架](./docs/internals/phase-4-scenarios.md)
 
 ## License
 

@@ -6,6 +6,11 @@ import { fileURLToPath } from 'node:url'
 const root = join(fileURLToPath(import.meta.url), '../..')
 const packagesDir = join(root, 'packages')
 
+if (!existsSync(packagesDir)) {
+  console.log('No packages found to build.')
+  process.exit(0)
+}
+
 const packages = readdirSync(packagesDir).filter((name) =>
   existsSync(join(packagesDir, name, 'package.json')),
 )
