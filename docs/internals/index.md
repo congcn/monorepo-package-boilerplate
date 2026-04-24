@@ -8,12 +8,13 @@
 
 本项目分四个阶段逐步演进：
 
-| 阶段   | 内容              | 文档                                   |
-| ------ | ----------------- | -------------------------------------- |
-| 阶段一 | Monorepo 基础设施 | [查看 →](/internals/phase-1-monorepo)  |
-| 阶段二 | 示例包结构        | [查看 →](/internals/phase-2-package)   |
-| 阶段三 | 文档站            | [查看 →](/internals/phase-3-docs)      |
-| 阶段四 | 多场景脚手架系统  | [查看 →](/internals/phase-4-scenarios) |
+| 阶段   | 内容              | 文档                                     |
+| ------ | ----------------- | ---------------------------------------- |
+| 阶段一 | Monorepo 基础设施 | [查看 →](/internals/phase-1-monorepo)    |
+| 阶段二 | 示例包结构        | [查看 →](/internals/phase-2-package)     |
+| 阶段三 | 文档站            | [查看 →](/internals/phase-3-docs)        |
+| 阶段四 | 多场景脚手架系统  | [查看 →](/internals/phase-4-scenarios)   |
+| 阶段五 | 工程维护与自动化  | [查看 →](/internals/phase-5-maintenance) |
 
 ## 关键设计原则
 

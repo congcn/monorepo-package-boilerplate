@@ -1,0 +1,31 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    ":separateMajorReleases",
+    ":combinePatchMinorReleases",
+    "helpers:pinGitHubActionDigests"
+  ],
+  "packageRules": [
+    {
+      "matchDepTypes": ["devDependencies"],
+      "automerge": true,
+      "automergeType": "branch",
+      "platformAutomerge": true
+    },
+    {
+      "matchDepTypes": ["peerDependencies"],
+      "automerge": false,
+      "dependencyDashboardApproval": true
+    },
+    {
+      "matchFileNames": ["scripts/templates/**"],
+      "groupName": "templates",
+      "automerge": false
+    }
+  ],
+  "timezone": "Asia/Shanghai",
+  "schedule": ["at any time"],
+  "prConcurrentLimit": 10,
+  "prHourlyLimit": 2
+}

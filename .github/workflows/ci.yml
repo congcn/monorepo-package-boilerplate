@@ -40,3 +40,13 @@ jobs:
 
       - name: Build
         run: pnpm build
+
+      - name: Template validation
+        run: |
+          pnpm create:package -n test-utils -t utils -d "Test utils"
+          pnpm create:package -n test-component -t component -d "Test component"
+          pnpm create:package -n test-react -t react -d "Test react"
+          pnpm create:package -n test-vue -t vue -d "Test vue"
+          pnpm create:package -n test-cesium -t cesium -d "Test cesium"
+          pnpm install --no-frozen-lockfile
+          pnpm build
