@@ -61,26 +61,113 @@ async function createPackage() {
   // 1. Create package directory
   await fs.mkdir(targetDir, { recursive: true })
 
-  // 2. Copy base template
-  await copyDirAndReplace(baseTemplateDir, targetDir, {
+  const replacements = {
     __PACKAGE_NAME__: fullPackageName,
     __PACKAGE_DIR__: packageName,
     __PACKAGE_DESC__: packageDesc,
-  })
+  }
+
+  // 2. Copy base template
+  await copyDirAndReplace(baseTemplateDir, targetDir, replacements)
 
   // 3. Copy scenario template (overwrites base and merges package.json)
-  await copyDirAndReplace(scenarioTemplateDir, targetDir, {
-    __PACKAGE_NAME__: fullPackageName,
-    __PACKAGE_DIR__: packageName,
-    __PACKAGE_DESC__: packageDesc,
-  })
+  await copyDirAndReplace(scenarioTemplateDir, targetDir, replacements)
 
   console.log(`\n✅ Package '${packageName}' created successfully!`)
   console.log(`\nNext steps:`)
   console.log(`  1. cd packages/${packageName}`)
   console.log(`  2. pnpm install`)
   console.log(`  3. pnpm build`)
-  console.log(`  4. Connect the package to your playground to test it.\n`)
+
+  if (templateName === 'cesium') {
+    console.log(`\n🚀 Automating Cesium Playground Setup...`)
+    await setupCesiumPlayground()
+  }
+
+  console.log(`\n  *. Connect the package to your playground to test it.\n`)
+}
+
+async function setupCesiumPlayground() {
+  const playgroundDir = path.resolve(ROOT_DIR, 'playground')
+  const pkgJsonPath = path.resolve(playgroundDir, 'package.json')
+  const viteConfigPath = path.resolve(playgroundDir, 'vite.config.ts')
+  const mainTsPath = path.resolve(playgroundDir, 'src/main.ts')
+
+  // 1. Update package.json
+  try {
+    const pkgJson = JSON.parse(await fs.readFile(pkgJsonPath, 'utf-8'))
+    pkgJson.dependencies = pkgJson.dependencies || {}
+    pkgJson.devDependencies = pkgJson.devDependencies || {}
+
+    let changed = false
+    if (!pkgJson.dependencies.cesium) {
+      pkgJson.dependencies.cesium = '^1.140.0'
+      changed = true
+    }
+    if (!pkgJson.devDependencies['vite-plugin-static-copy']) {
+      pkgJson.devDependencies['vite-plugin-static-copy'] = '^2.3.2'
+      changed = true
+    }
+
+    if (changed) {
+      await fs.writeFile(pkgJsonPath, JSON.stringify(pkgJson, null, 2) + '\n')
+      console.log('  ✅ Updated playground/package.json')
+    }
+  } catch (e: unknown) {
+    const message = e instanceof Error ? e.message : String(e)
+    console.warn('  ⚠️ Failed to update playground/package.json:', message)
+  }
+
+  // 2. Update vite.config.ts
+  try {
+    const configContent = await fs.readFile(viteConfigPath, 'utf-8')
+    if (!configContent.includes('vite-plugin-static-copy')) {
+      const newConfig = `import { defineConfig } from 'vite'
+import { viteStaticCopy } from 'vite-plugin-static-copy'
+
+const cesiumSource = 'node_modules/cesium/Build/Cesium'
+const cesiumBaseUrl = 'cesium'
+
+export default defineConfig({
+  define: {
+    // 定义 Cesium 的基准路径
+    CESIUM_BASE_URL: JSON.stringify(\`/\${cesiumBaseUrl}\`)
+  },
+  plugins: [
+    viteStaticCopy({
+      targets: [
+        { src: \`\${cesiumSource}/Workers\`, dest: cesiumBaseUrl },
+        { src: \`\${cesiumSource}/Assets\`, dest: cesiumBaseUrl },
+        { src: \`\${cesiumSource}/Widgets\`, dest: cesiumBaseUrl },
+        { src: \`\${cesiumSource}/ThirdParty\`, dest: cesiumBaseUrl },
+      ]
+    })
+  ],
+  server: {
+    port: 3000,
+  },
+})
+`
+      await fs.writeFile(viteConfigPath, newConfig)
+      console.log('  ✅ Updated playground/vite.config.ts')
+    }
+  } catch (e: unknown) {
+    const message = e instanceof Error ? e.message : String(e)
+    console.warn('  ⚠️ Failed to update playground/vite.config.ts:', message)
+  }
+
+  // 3. Update src/main.ts
+  try {
+    let mainContent = await fs.readFile(mainTsPath, 'utf-8')
+    if (!mainContent.includes('cesium/Build/Cesium/Widgets/widgets.css')) {
+      mainContent = `import 'cesium/Build/Cesium/Widgets/widgets.css'\n` + mainContent
+      await fs.writeFile(mainTsPath, mainContent)
+      console.log('  ✅ Updated playground/src/main.ts (added CSS import)')
+    }
+  } catch (e: unknown) {
+    const message = e instanceof Error ? e.message : String(e)
+    console.warn('  ⚠️ Failed to update playground/src/main.ts:', message)
+  }
 }
 
 async function copyDirAndReplace(

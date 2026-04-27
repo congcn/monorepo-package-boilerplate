@@ -126,25 +126,47 @@ export default defineConfig({
 
 **如果你开发 Cesium 库：**
 
-1. 给 playground 安装 cesium 和 vite 插件
+1. 给 playground 安装 cesium 和静态资源拷贝插件
 
 ```bash
 pnpm -F playground add cesium
-pnpm -F playground add -D vite-plugin-cesium
+pnpm -F playground add -D vite-plugin-static-copy
 ```
 
-2. 修改 playground/vite.config.ts，引入并使用 cesium 插件
+2. 修改 playground/vite.config.ts，引入并使用静态资源拷贝插件
 
 ```typescript
 import { defineConfig } from 'vite'
-import cesium from 'vite-plugin-cesium'
+import { viteStaticCopy } from 'vite-plugin-static-copy'
+
+const cesiumSource = 'node_modules/cesium/Build/Cesium'
+const cesiumBaseUrl = 'cesium'
 
 export default defineConfig({
-  plugins: [cesium()],
+  define: {
+    // 定义 Cesium 的基准路径（注意需要 JSON.stringify）
+    CESIUM_BASE_URL: JSON.stringify(`/${cesiumBaseUrl}`),
+  },
+  plugins: [
+    viteStaticCopy({
+      targets: [
+        { src: `${cesiumSource}/Workers`, dest: cesiumBaseUrl },
+        { src: `${cesiumSource}/Assets`, dest: cesiumBaseUrl },
+        { src: `${cesiumSource}/Widgets`, dest: cesiumBaseUrl },
+        { src: `${cesiumSource}/ThirdParty`, dest: cesiumBaseUrl },
+      ],
+    }),
+  ],
   server: {
     port: 3000,
   },
 })
+```
+
+3. 在 `playground/src/main.ts` 中手动引入 Cesium 样式：
+
+```typescript
+import 'cesium/Build/Cesium/Widgets/widgets.css'
 ```
 
 配置完成后，将 `playground/src/main.ts` 改造成对应框架的挂载入口即可。
