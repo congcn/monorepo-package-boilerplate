@@ -1,6 +1,6 @@
-# **PACKAGE_NAME**
+# {{PACKAGE_NAME}}
 
-**PACKAGE_DESC**
+{{PACKAGE_DESC}}
 
 ## Installation
 

@@ -65,6 +65,9 @@ async function createPackage() {
     __PACKAGE_NAME__: fullPackageName,
     __PACKAGE_DIR__: packageName,
     __PACKAGE_DESC__: packageDesc,
+    '{{PACKAGE_NAME}}': fullPackageName,
+    '{{PACKAGE_DIR}}': packageName,
+    '{{PACKAGE_DESC}}': packageDesc,
   }
 
   // 2. Copy base template

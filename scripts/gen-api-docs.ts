@@ -30,7 +30,9 @@ async function genApiDocs() {
     console.log(`📦 正在为 [${pkg}] 生成文档...`)
 
     const outputDir = join(docsApiDir, pkg).replace(/\\/g, '/')
-    const entryPoint = join(packagesDir, pkg, 'src/index.ts').replace(/\\/g, '/')
+    const tsEntry = join(packagesDir, pkg, 'src/index.ts')
+    const tsxEntry = join(packagesDir, pkg, 'src/index.tsx')
+    const entryPoint = (existsSync(tsEntry) ? tsEntry : tsxEntry).replace(/\\/g, '/')
     const tsconfigPath = join(packagesDir, pkg, 'tsconfig.json').replace(/\\/g, '/')
 
     if (!existsSync(entryPoint)) {

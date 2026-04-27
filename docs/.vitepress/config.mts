@@ -1,4 +1,4 @@
-import { defineConfig } from 'vitepress'
+﻿import { defineConfig } from 'vitepress'
 
 const docsBase = process.env.DOCS_BASE ?? '/'
 const base = docsBase.endsWith('/') ? docsBase : `${docsBase}/`
@@ -6,8 +6,7 @@ const base = docsBase.endsWith('/') ? docsBase : `${docsBase}/`
 export default defineConfig({
   base,
   title: 'Monorepo Package Boilerplate',
-  description:
-    '🚀 A modern multi-scenario monorepo boilerplate for building component libraries & npm packages. 一套面向多场景的现代化组件库 monorepo 模板。',
+  description: 'A modern monorepo boilerplate for building component libraries and npm packages.',
   cleanUrls: true,
   lastUpdated: true,
   themeConfig: {
@@ -24,6 +23,7 @@ export default defineConfig({
           items: [
             { text: '快速开始', link: '/guide/getting-started' },
             { text: '多场景包开发', link: '/guide/scenarios' },
+            { text: '依赖策略', link: '/guide/dependency-strategy' },
           ],
         },
       ],
@@ -37,11 +37,12 @@ export default defineConfig({
         {
           text: '工程溯源',
           items: [
-            { text: '概述', link: '/internals/' },
+            { text: '概览', link: '/internals/' },
             { text: '阶段一：Monorepo 基础设施', link: '/internals/phase-1-monorepo' },
             { text: '阶段二：示例包结构', link: '/internals/phase-2-package' },
             { text: '阶段三：文档站', link: '/internals/phase-3-docs' },
             { text: '阶段四：多场景脚手架', link: '/internals/phase-4-scenarios' },
+            { text: '阶段五：维护策略', link: '/internals/phase-5-maintenance' },
           ],
         },
       ],
@@ -51,7 +52,7 @@ export default defineConfig({
     ],
     footer: {
       message: 'Built with pnpm workspaces, TypeScript, Rollup and VitePress.',
-      copyright: 'Copyright © 2026 Monorepo Package Boilerplate',
+      copyright: `Copyright © ${new Date().getFullYear()} Monorepo Package Boilerplate`,
     },
     search: {
       provider: 'local',

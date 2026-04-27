@@ -41,6 +41,9 @@ jobs:
       - name: Build
         run: pnpm build
 
+      - name: API docs generation
+        run: pnpm docs:api
+
       - name: Template validation
         run: |
           pnpm create:package -n test-utils -t utils -d "Test utils"
