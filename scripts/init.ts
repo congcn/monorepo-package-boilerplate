@@ -1,4 +1,4 @@
-﻿import fs from 'node:fs/promises'
+import fs from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import readline from 'node:readline/promises'
@@ -49,7 +49,7 @@ async function init() {
     .replace(/title: '.*'/, `title: '${projectName}'`)
     .replace(/description:\s*'[^']*'/, `description: '${description.replace(/'/g, "\\'")}'`)
     .replace(/\{ text: '工程溯源', link: '\/internals\/' \},\s*/, '')
-    .replace(/'\/internals\/': \[[\s\S]*?\],\s*/, '')
+    .replace(/'\/internals\/': \[\s*\{[\s\S]*?\}\s*\],\s*/, '')
     .replace(/\{ icon: 'github', link: '[^']+' \}/, `{ icon: 'github', link: '${cleanGithubUrl}' }`)
     .replace(/Monorepo Package Boilerplate/g, projectName)
 
